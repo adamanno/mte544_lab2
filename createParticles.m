@@ -15,8 +15,8 @@ function particles = createParticles(n,freespace,scale)
             randj = rand()*size(freespace,2)*scale;
             rando = rand()*2*pi;
 
-            idx_i = uint8(randi);
-            idx_j = uint8(randj);
+            idx_i = uint16(randi);
+            idx_j = uint16(randj);
 
             if idx_i < 1 
                 idx_i = 1;
