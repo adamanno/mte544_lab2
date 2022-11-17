@@ -36,7 +36,6 @@ function particles = createParticles(n,freespace,scale)
         p(i).y = randj;
         p(i).theta = rando;
         
-        fprintf('n: %d\n', i)
     end
 
     particles = p;

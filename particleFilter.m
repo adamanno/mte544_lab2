@@ -6,11 +6,12 @@ load('lab2_data.mat')
 
 map = imread('map_mazes/map_maze_2.pgm');
 
+f = createFreespace(map, 'uint8');
+w = createWallmap(map, 'uint8');
+
 figure(1)
 hold on
 imshow(map)
-f = createFreespace(map, 'uint8');
-w = createWallmap(map, 'uint8');
 hold off
 
 figure(2)
