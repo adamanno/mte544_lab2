@@ -10,8 +10,9 @@ bag2 = ros2bagreader('point2/point2_0.db3');
 % scan1 = select(bag1,"Topic","/scan");
 % scan2 = select(bag2,"Topic","/scan");
 
+
 odom1_msgs = readMessages(select(bag1,"Topic","/odom"));
 scan1_msgs = readMessages(select(bag1,"Topic","/scan"));
 
-tf_msgs = readMessages(select(bag1,"Topic","/tf"));
-tf_static_msgs = readMessages(select(bag1,"Topic","/tf_static"));
+tf1_msgs = readMessages(select(bag1,"Topic","/tf"));
+tf_static1_msgs = readMessages(select(bag1,"Topic","/tf_static"));
