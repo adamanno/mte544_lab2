@@ -17,3 +17,15 @@ tf2_msgs = cell2mat(tf2_msgs);
 tf_static1_msgs = cell2mat(tf_static1_msgs);
 tf_static2_msgs = cell2mat(tf_static2_msgs);
 
+map = imread('map_mazes/map_maze_2.pgm');
+% imshow(map)
+f = createFreespace(map, 'uint8');
+figure(1)
+imshow(f)
+
+
+
+
+
+
+
