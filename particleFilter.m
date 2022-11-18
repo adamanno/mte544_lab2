@@ -2,7 +2,7 @@ clear
 clc
 close all
 
-load('lab2_data.mat')
+load('data/lab2_data.mat')
 
 map = imread('map_mazes/map_maze_2.pgm');
 
