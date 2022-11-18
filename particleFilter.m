@@ -9,9 +9,15 @@ map = imread('map_mazes/map_maze_2.pgm');
 f = createFreespace(map, 'uint8');
 w = createWallmap(map, 'uint8');
 
+
+map_matlab = occupancyMap(map./255, 0.03^-1);
+map_matlab.OccupiedThreshold = 0.65;
+map_matlab.FreeThreshold = 0.25;
+map_matlab.LocalOriginInWorld = [-0.843 -3.94];
+
 figure(1)
 hold on
-imshow(map)
+map_matlab.show()
 hold off
 
 figure(2)

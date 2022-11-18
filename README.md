@@ -4,6 +4,7 @@
 
 - Requires MATLAB 2022b
 - Requires the MATLAB ROS Toolbox
+- Requires the MATLAB Navigation Toolbox
 
 ### Use Instructions ###
 
