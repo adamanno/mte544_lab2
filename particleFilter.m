@@ -33,6 +33,7 @@ hold off
 hold on
 for n = 1:m
     plot(p(n).x, p(n).y, '.r')
+end
 
 hold on
 for n = 1:length(o)
