@@ -13,8 +13,8 @@ map.FreeThreshold = 0.25;
 map.GridOriginInLocal = [-0.843 -3.94]; % Spoke with Ahmed about this, he said it was okay to use this value as the origin for maze 2
 
 
-x_range = map_matlab.XWorldLimits;
-y_range = map_matlab.YWorldLimits;
+x_range = map.XWorldLimits;
+y_range = map.YWorldLimits;
 
 % get points from the map and create the KDTree searcher
 o = map2points(map);
@@ -33,6 +33,7 @@ hold off
 hold on
 for n = 1:m
     plot(p(n).x, p(n).y, '.r')
+end
 
 hold on
 for n = 1:length(o)
