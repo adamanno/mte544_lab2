@@ -2,52 +2,34 @@ clear
 clc
 close all
 
+% previously loaded all data from .db3 bag file using ROS toolbox
 load('data/lab2_data.mat')
-
 map = imread('map_mazes/map_maze_2.pgm');
+map = occupancyMap(map./255, 0.03^-1);
 
-f = createFreespace(map, 'uint8');
-w = createWallmap(map, 'uint8');
+% occupancyMap parameters
+map.OccupiedThreshold = 0.65;
+map.FreeThreshold = 0.25;
+map.GridOriginInLocal = [-0.843 -3.94]; % Spoke with Ahmed about this, he said it was okay to use this value as the origin for maze 2
 
-map_matlab = occupancyMap(map./255, 0.03^-1);
-map_matlab.OccupiedThreshold = 0.65;
-map_matlab.FreeThreshold = 0.25;
-map_matlab.GridOriginInLocal = [-0.843 -3.94 ];
+% get points from the map and create the KDTree searcher
+o = map2points(map);
+searcher = KDTreeSearcher(o);
 
-map_matlab.XWorldLimits
-map_matlab.YWorldLimits
-
-m=1000;
-
-% modify createParticles to generate particles on the 
-% x = [2, xmax], y =[-y, ymin] intervals
-% theta = [0, 2*pi]
+% create particles in region
+m=5000;
 p = createParticles(m,f,1);
 
 
 figure(1)
 hold on
-map_matlab.show()
+map.show()
 hold off
 hold on
-for n = 1:m
-    plot(p(n).y, p(n).x, '.r')
+for n = 1:length(o)
+    plot(o(n,1), o(n,2), '.r')
 end
 hold off
 
-% figure(2)
-% hold on
-% imshow(f)
-% hold off
-% 
-% figure (3)
-% hold on
-% imshow(w)
-% hold off
-% 
-
-% figure(4)
-% hold on
-% imshow(f)
 
 
