@@ -12,7 +12,6 @@ map.OccupiedThreshold = 0.65;
 map.FreeThreshold = 0.25;
 map.GridOriginInLocal = [-0.843 -3.94]; % Spoke with Ahmed about this, he said it was okay to use this value as the origin for maze 2
 
-
 x_range = map.XWorldLimits;
 y_range = map.YWorldLimits;
 
