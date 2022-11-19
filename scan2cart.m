@@ -11,8 +11,7 @@ function cart = scan2cart(range)
         y(i) = range(i)*sin(theta(i));
     end
     
-    cart.x = x;
-    cart.y = y;
+    cart = [x y];
 
 end
 
