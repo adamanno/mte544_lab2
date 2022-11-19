@@ -49,35 +49,34 @@ end
 legend('Transformed Scan', 'KNN')
 
 
-%% ************************************************************************
-N_iter = 100;
-for i = 1:N_iter % outer loop:
-    for j = 1:length(p) % inner loop: weight particles
-%         transformedScan = transformScan2(scan1_msgs(1).ranges, p(j));
-    end
-
-    % resample according to the weights
-end
-
-
-%% plotting section
-if false
-    figure(1)
-    hold on
-    map.show()
-    hold off
-    
-    hold on
-    for n = 1:N_part
-        plot(p(n).x, p(n).y, '.r')
-    end
-    
-    hold on
-    for n = 1:length(occPoints)
-        plot(occPoints(n,1), occPoints(n,2), '.b')
-        
-    end
-    hold off
-
-end
+% N_iter = 100;
+% for i = 1:N_iter % outer loop:
+%     for j = 1:length(p) % inner loop: weight particles
+% %         transformedScan = transformScan2(scan1_msgs(1).ranges, p(j));
+%     end
+% 
+%     % resample according to the weights
+% end
+% 
+% 
+% %% plotting section
+% if false
+%     figure(1)
+%     hold on
+%     map.show()
+%     hold off
+%     
+%     hold on
+%     for n = 1:N_part
+%         plot(p(n).x, p(n).y, '.r')
+%     end
+%     
+%     hold on
+%     for n = 1:length(occPoints)
+%         plot(occPoints(n,1), occPoints(n,2), '.b')
+%         
+%     end
+%     hold off
+% 
+% end
 
