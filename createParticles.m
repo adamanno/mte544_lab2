@@ -1,36 +1,18 @@
-function particles = createParticles(n,freespace,scale)
+%% put particles between a certain limit of coordinates
+
+function particles = createParticles(n,x_range,y_range)
+
+    x_min = 2; %(x_range(2)-x_range(1))/2;
+    x_max = x_range(2);
+    y_min = y_range(1);
+    y_max = -1; %y_min + (y_range(2)-y_range(1))/2.5;
+
     p = struct('x',{},'y',{},'theta',{});
     
     for i = 1:n
-        randi = size(freespace,1)*scale; 
-        randj = size(freespace,2)*scale;
-        rando = 2*pi;
-        
-        idx_i = 1;
-        idx_j = 1;
-
-
-        while freespace(idx_i,idx_j) == 0
-            randi = rand()*size(freespace,1)*scale;
-            randj = rand()*size(freespace,2)*scale;
-            rando = rand()*2*pi;
-
-            idx_i = uint16(randi);
-            idx_j = uint16(randj);
-
-            if idx_i < 1 
-                idx_i = 1;
-            elseif idx_i > size(freespace,1)
-                idx_i = size(freespace,1);
-            end
-    
-            if idx_j < 1 
-                idx_j = 1;
-            elseif idx_j > size(freespace,2)
-                idx_j = size(freespace,2);
-            end
-
-        end
+        randi = x_min + rand()*(x_max-x_min);
+        randj = y_min + rand()*(y_max-y_min);
+        rando = rand()*2*pi;
 
         p(i).x = randi;
         p(i).y = randj;
@@ -41,4 +23,3 @@ function particles = createParticles(n,freespace,scale)
     particles = p;
 
 end
-
