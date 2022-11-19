@@ -20,14 +20,13 @@ searcher = KDTreeSearcher(o);
 m=5000;
 p = createParticles(m,f,1);
 
-
 figure(1)
 hold on
 map.show()
 hold off
 hold on
 for n = 1:length(o)
-    plot(o(n,1), o(n,2), '.r')
+    plot(o(n,1), o(n,2), '.b')
 end
 hold off
 
