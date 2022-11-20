@@ -20,45 +20,60 @@ map.GridOriginInLocal = [-0.843 -3.94];
 occPoints = map2points(map); % get points from the map 
 KDS = KDTreeSearcher(occPoints); % create the KDTree searcher
 
-N_part = 5000; % number of particles to create
+N_part = 100; % number of particles to create
 p = createParticles(N_part, map); % particles vector
-w = ones(1, length(p))./length(p); % weights vector
+w = ones(1, N_part)./N_part; % weights vector
 
-q1 = transformScan2(scan1_msgs(1).ranges, p(674));
-q2 = transformScan2(scan1_msgs(1).ranges, p(674));
+N_iter = 2;
+poseGuess = zeros(N_iter,3);
+poseGuess(1,:) = averagePose(p);
 
 
-[i1, d1] = knnsearch(KDS, q1, K=1);
-% [i2, d2] = knnsearch(KDS, q2, K=1);
-i1 = unique(i1);
+for i = 2:N_iter + 1 % outer loop:
+    for j = 1:N_part % inner loop: weight particles
+        q = transformScan2(scan1_msgs(i-1).ranges, p(j));
+        [idx, d] = knnsearch(KDS, q, K=1);
+        probs = exp((-(d.^2))./(2*0.04));
+        w(j) = prod(probs);
+    end
+    
+    a = sum(w)/length(w)
+    % scale weights for proportional sampling
+    w = w./sum(w);
+    for k = 2:N_part
+        w(k) = w(k) + w(k-1);
+    end
+    
+    % resample according to the weights
+    for k = 1:N_part
+        r = rand();
+        for m = 1:N_part
+            if r < w(m)
+                p(k) = p(m);
+                break
+            end
+        end
+    end
 
-probs = exp((-(d1.^2))./(2*0.04));
+    poseGuess(i,:) = averagePose(p);
+end
 
-[i2, d2] = knnsearch(occPoints,q1,'K',720,'Distance','euclidean');
+
 
 figure(1)
 hold on
 map.show()
 hold off
 hold on
-plot(q1(:,1), q1(:,2), '.r')
-for i = 1:length(i1)
-    plot(occPoints(i1(i),1), occPoints(i1(i),2), '.b')
-end
-% plot(q2(:,1), q2(:,2), '.b')
-legend('Transformed Scan', 'KNN')
+plot(poseGuess(:,1), poseGuess(:,2), '.r')
+hold off
+
+figure(2)
+hold on
+grid on
+plot(linspace(0, N_iter, N_iter+1), poseGuess(:,3), '-b.')
 
 
-% N_iter = 100;
-% for i = 1:N_iter % outer loop:
-%     for j = 1:length(p) % inner loop: weight particles
-% %         transformedScan = transformScan2(scan1_msgs(1).ranges, p(j));
-%     end
-% 
-%     % resample according to the weights
-% end
-% 
-% 
 % %% plotting section
 % if false
 %     figure(1)
