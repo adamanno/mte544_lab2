@@ -9,7 +9,12 @@ function avg = averagePose(p)
         y_temp = y_temp + p(i).y;
         t_temp = t_temp + p(i).theta;
     end
-
-    avg = [x_temp/n, y_temp/n, t_temp/n];
+        
+    pose.x = x_temp/n;
+    pose.y = y_temp/n;
+    pose.theta = t_temp/n;
+    pose.G = particleTransform(pose.x, pose.y, pose.theta);
+    
+    avg = pose;
 end
 
