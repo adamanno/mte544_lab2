@@ -27,8 +27,10 @@ N_iter = 10; % max number of iteratinos the algorithm will run
 poseGuess(1) = averagePose(p); % create memory to store the weighted-average pose from each iteration
 
 % select the scan point
-scan = scan1_msgs;
-figname = 'point1.png';
+% scan = scan1_msgs;
+% figname = 'point1.png';
+scan = scan2_msgs;
+figname = 'point2.png';
 
 for i = 2:N_iter + 1 % outer loop:
 
@@ -66,6 +68,7 @@ for i = 2:N_iter + 1 % outer loop:
     end
 end
 
+
 figure(1)
 hold on
 map.show()
@@ -79,5 +82,28 @@ hold off
 exportgraphics(gcf,figname,'BackgroundColor', 'none', 'Resolution',1800)
 fprintf('exported .png\n')
 
+%%
+figure(2)
+n = linspace(1, length(poseGuess), length(poseGuess)) - 1;
 
+subplot(3,1,1)
+set(gcf, Position=[0 0 800 320])
+hold on
+grid on
+title('X-estimate vs. Iteration')
+plot(n, [poseGuess(:).x], '-b.')
 
+subplot(3,1,2)
+hold on
+grid on
+title('Y-estimate vs. Iteration')
+plot(n, [poseGuess(:).y], '-b.')
+
+subplot(3,1,3)
+hold on
+grid on
+title('\theta-estimate vs. Iteration')
+plot(n, [poseGuess(:).theta], '-b.')
+
+exportgraphics(gcf, 'convergencePlot.png', 'Resolution', 1800)
+fprintf('exported .png\n')
