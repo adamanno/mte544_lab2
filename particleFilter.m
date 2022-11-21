@@ -20,7 +20,7 @@ map.GridOriginInLocal = [-0.843 -3.94];
 occPoints = map2points(map); % get points from the map 
 KDS = KDTreeSearcher(occPoints); % create the KDTree searcher
 
-N_part = 100; % number of particles to create
+N_part = 1000; % number of particles to create
 p = createParticles(N_part, map); % particles vector
 w = ones(1, N_part)./N_part; % weights vector
 
@@ -40,20 +40,31 @@ for i = 2:N_iter + 1 % outer loop:
     a = sum(w)/length(w)
     % scale weights for proportional sampling
     w = w./sum(w);
-    for k = 2:N_part
-        w(k) = w(k) + w(k-1);
-    end
-    
-    % resample according to the weights
+
+    particleIndex = zeros(1, N_part);
     for k = 1:N_part
-        r = rand();
-        for m = 1:N_part
-            if r < w(m)
-                p(k) = p(m);
-                break
-            end
-        end
+       particleIndex(k) = k;
     end
+    resample = randsrc(1,N_part,[particleIndex; w]);
+    tempPart = p;
+    for k = 1:N_part
+       p(k) = tempPart(resample(k));
+    end
+
+%     for k = 2:N_part
+%         w(k) = w(k) + w(k-1);
+%     end
+%     
+%     % resample according to the weights
+%     for k = 1:N_part
+%         r = rand();
+%         for m = 1:N_part
+%             if r < w(m)
+%                 p(k) = p(m);
+%                 break
+%             end
+%         end
+%     end
 
     poseGuess(i,:) = averagePose(p);
 end
