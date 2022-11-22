@@ -19,7 +19,7 @@ map.GridOriginInLocal = [-0.843 -3.94];
 occPoints = map2points(map); % get points from the map 
 KDS = KDTreeSearcher(occPoints); % create the KDTree searcher
 
-N_part = 50000; % number of particles to create
+N_part = 3000; % number of particles to create
 p = createParticles(N_part, map); % particles vector
 w = ones(1, N_part)./N_part; % weights vector
 
@@ -27,10 +27,10 @@ N_iter = 10; % max number of iteratinos the algorithm will run
 poseGuess(1) = averagePose(p); % create memory to store the weighted-average pose from each iteration
 
 % select the scan point
-% scan = scan1_msgs;
-% figname = 'point1.png';
-scan = scan2_msgs;
-figname = 'point2.png';
+% scan = scan2_msgs;
+% figname = 'point2.png';
+scan = scan1_msgs;
+figname = 'point1.png';
 
 for i = 2:N_iter + 1 % outer loop:
 
