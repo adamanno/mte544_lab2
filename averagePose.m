@@ -1,3 +1,4 @@
+% Finds the average pose based on all the particles
 function avg = averagePose(p)
     n = length(p);
     x_temp = 0;

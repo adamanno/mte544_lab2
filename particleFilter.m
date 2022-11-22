@@ -27,12 +27,12 @@ N_iter = 10; % max number of iteratinos the algorithm will run
 poseGuess(1) = averagePose(p); % create memory to store the weighted-average pose from each iteration
 
 % select the scan point
-% scan = scan1_msgs;
-% figname = 'point1.png';
-scan = scan2_msgs;
-figname = 'point2.png';
+scan = scan1_msgs;
+figname = 'point1.png'; % Point 3 on Maze 2
+% scan = scan2_msgs;
+% figname = 'point2.png'; % Point 7 on Maze 2
 
-for i = 2:N_iter + 1 % outer loop:
+for i = 2:N_iter + 1 % outer loop: iterations
 
     for j = 1:N_part % inner loop: weight particles
         q = transformScan2(scan(i-1).ranges, p(j)); % generate point cloud in particle coordinate frame
@@ -45,10 +45,13 @@ for i = 2:N_iter + 1 % outer loop:
 
     % scale weights for proportional sampling
     w = w./sum(w);
-
+    
+    %Resample based on weightings
+    %resample array is an array with information on which particle got sampled
     resample = randsrc(1,N_part,[linspace(1, N_part, N_part); w]);
     tempPart = p;
     
+    %Replace particle struct with resampled particles
     for k = 1:N_part
        p(k) = tempPart(resample(k));
     end
@@ -64,11 +67,12 @@ for i = 2:N_iter + 1 % outer loop:
     err = norm([deltax deltay deltatheta]); % norm of the error vector
 
     if err < 0.0005 % exit condition
+        fprintf('Error between current guessed pose and previous guessed pose is less than 0.0005. Breaking loop.\n')
         break
     end
 end
 
-
+%Plot estimated pose and its lidar scan point cloud onto of the map
 figure(1)
 hold on
 map.show()
@@ -80,9 +84,10 @@ plot(q(:,1), q(:,2), 'b.')
 legend('Best Pose', 'LiDAR Cloud')
 hold off
 exportgraphics(gcf,figname,'BackgroundColor', 'none', 'Resolution',1800)
-fprintf('exported .png\n')
+fprintf('exported %s\n', figname)
 
 %%
+%Plotting the changes in the pose each iteration, as it converges to the best estimate
 figure(2)
 n = linspace(1, length(poseGuess), length(poseGuess)) - 1;
 
@@ -92,18 +97,24 @@ hold on
 grid on
 title('X-estimate vs. Iteration')
 plot(n, [poseGuess(:).x], '-b.')
+xlabel('iterations') 
+ylabel('x coordinate [meters]') 
 
 subplot(3,1,2)
 hold on
 grid on
 title('Y-estimate vs. Iteration')
 plot(n, [poseGuess(:).y], '-b.')
+xlabel('iterations') 
+ylabel('y coordinate [meters]') 
 
 subplot(3,1,3)
 hold on
 grid on
 title('\theta-estimate vs. Iteration')
 plot(n, [poseGuess(:).theta], '-b.')
+xlabel('iterations') 
+ylabel('orientation [radians]') 
 
 exportgraphics(gcf, 'convergencePlot.png', 'Resolution', 1800)
-fprintf('exported .png\n')
+fprintf('exported convergencePlot.png\n')
