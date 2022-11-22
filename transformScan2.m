@@ -1,3 +1,4 @@
+%transforms the lidar point cloud to cartesian coordinates in the global frame
 function out = transformScan2(scan,p)
     data = scan2cart(scan);
     
